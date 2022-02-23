@@ -1,1 +1,2 @@
-TOKEN='5202519573:AAHhD3iwq3NjQ3wzxtMHqs-ggLlN_BOM6w8'
+TOKEN='5283668198:AAGQ8vIbSbGFENdxHP5yECU5AyJyyC1zIEo'
+LINK = 'http://t.me/free_time_mipt_bot'
