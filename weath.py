@@ -79,15 +79,70 @@ for hourly in weather_after_tomorrow["hourly"]:
 
 
 day_0 = [[] for _ in range(8)]
+date_0 = weather_today["date"]
+
 day_1 = [[] for _ in range(8)]
+date_1 = weather_tomorrow["date"]
+
 day_2 = [[] for _ in range(8)]
-days = [day_0,day_1,day_2]
+date_2 = weather_after_tomorrow["date"]
 
-for day in range(3):
+days = {date_0: day_0,date_1:day_1,date_2:day_2}
+
+for ind,day in enumerate(days):
     for inter in range(8):
-        days[day][inter].append(weather[day]["hourly"][inter]["tempC"])
-        days[day][inter].append(weather[day]["hourly"][inter]["chanceofrain"])
-        days[day][inter].append(weather[day]["hourly"][inter]["chanceofsunshine"])
+        days[day][inter].append(weather[ind]["hourly"][inter]["tempC"])
+        days[day][inter].append(weather[ind]["hourly"][inter]["chanceofrain"])
+        days[day][inter].append(weather[ind]["hourly"][inter]["chanceofsunshine"])
 
+# print(days)
+
+
+def ISRAINING(date,time):
+    try:
+        hour = int(time[0:2])
+        min = int(time[3:])
+        rain = None
+        if min > 30:
+            hour += 1
+        ind_hour = hour // 3
+        percent_rain = int(days[date][ind_hour][1])
+        if percent_rain < 40:
+            rain = False
+        else:
+            rain = True
+    except ValueError:
+        rain = "Вы ввели недопустимые символы."
+    except IndexError:
+        rain = "Вы ввели недопустимые символы."
+    return rain
+
+
+
+def RECOMENDATIONS(date,time):
+    try:
+        hour = int(time[0:2])
+        min = int(time[3:])
+        if min > 30:
+            hour += 1
+        ind_hour = hour // 3
+        temp = int(days[date][ind_hour][0])
+        comment = ""
+        if ISRAINING(date,time) == False:
+            if int(temp) > -5 :
+                comment = "Иди гулять!!!"
+        else:
+            comment = "Возьми зонт!!!"
+
+    except ValueError:
+        comment = "Вы ввели недопустимые символы."
+    except IndexError:
+        comment = "Вы ввели недопустимые символы."
+    return comment
+
+date = input("date:")
+time = input("time:")
+print(ISRAINING(date,time))
+print(RECOMENDATIONS(date,time))
 
 
