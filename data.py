@@ -16,8 +16,8 @@ def know_user(id):
     return False
 
 def unique_login(login):
-    if login in users: return True
-    return False
+    if login in users: return False
+    return True
 
 def register(id, username ):
     '''with open('data.pickle', 'rb') as f:

@@ -1,3 +1,4 @@
+from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.utils.helper import Helper, HelperMode, ListItem
 class TestStates(Helper):
     mode = HelperMode.snake_case
@@ -8,3 +9,7 @@ class TestStates(Helper):
     TEST_STATE_3_REGISTER_GROUP = ListItem()
     TEST_STATE_4 = ListItem()
     TEST_STATE_5 = ListItem()
+
+class form(StatesGroup):
+    register= State()
+    group = State()
