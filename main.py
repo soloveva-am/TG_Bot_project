@@ -50,7 +50,8 @@ async def register_group(message: Message, state: FSMContext) -> None:
     group_number = message.text.strip()
     set_group(message.from_user.id, group_number)
     Uinfo = know_user(message.from_user.id)
-    await message.reply(f'теперь мы знакомы, {Uinfo[0]} из группы {Uinfo[1]}! \n')
+    if Uinfo==False: raise Exception
+    else: await message.reply(f'теперь мы знакомы, {Uinfo[0]} из группы {Uinfo[1]}! \n')
 
 async def main():
     bot = Bot(token=TOKEN, parse_mode="HTML")
