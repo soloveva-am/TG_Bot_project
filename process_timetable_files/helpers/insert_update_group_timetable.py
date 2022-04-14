@@ -17,7 +17,6 @@ else:
 import time
 
 
-#TODO: починить. пока не работает
 def insert_update_group_timetable(group_name: str, timetable: dict, exam=False):
     with open('TimetableDB.pickle', 'rb') as f:
         TimetableDB = pickle.load(f)
