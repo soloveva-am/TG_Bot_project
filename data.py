@@ -1,11 +1,13 @@
 import pickle
 user_data ={'ID':['login', 'group number'], }
 users = []
-with open ('data.pickle', 'rb') as f:
-        user_data = pickle.load(f)
-if len(user_data)<1:
+import os.path
+if not os.path.exists('data.pickle'):
     with open('data.pickle', 'wb') as f:
         pickle.dump(user_data, f, pickle.HIGHEST_PROTOCOL)
+else:
+    with open ('data.pickle', 'rb') as f:
+            user_data = pickle.load(f)
 
 def know_user(id):
     with open('data.pickle', 'rb') as f:
