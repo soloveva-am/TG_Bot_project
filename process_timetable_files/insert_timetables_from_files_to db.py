@@ -1,4 +1,4 @@
-from helpers import insert_update_group_timetable
+from insert_update_group_timetable import insert_update_group_timetable
 from read_all_timetables_from_file import (
     get_all_timetable_from_file,
     get_all_exam_timetable_from_file,
