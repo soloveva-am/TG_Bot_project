@@ -40,3 +40,8 @@ def get_group_timetable(group_name, exam=False):
     if group_name in TimetableDB.keys():
         return TimetableDB[group_name][exam]
     else: raise NameError
+
+def get_all_timetable():
+    with open('TimetableDB.pickle', 'rb') as f:
+        TimetableDB = pickle.load(f)
+    return TimetableDB
