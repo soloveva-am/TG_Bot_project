@@ -1,4 +1,4 @@
-from timetable_reader.py import *
+from timetable_reader import *
 group = 'Б05-878'
 print (get_group_timetable(group))
 print()
