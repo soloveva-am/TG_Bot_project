@@ -76,7 +76,7 @@ def SKATING(group):
 
 
 
-print(ADVICES('2022-04-22','Б03-007'))
+print(ADVICES('2022-04-27','Б03-007'))
 print(SKATING('Б03-007'))
 
 
