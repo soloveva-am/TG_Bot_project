@@ -6,7 +6,7 @@ def WEEKDAY(my_day):
     n = (day+2*month+(3*(month+1))//5+year+(year//4))%7
     return dict_day[str(n)]
 
-# print(WEEKDAY('2022-04-26'))
+
 
 
 def convert_time(hour):
