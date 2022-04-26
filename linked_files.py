@@ -1,4 +1,4 @@
-from process_timetable_files.insert_update_group_timetable import get_group_timetable, get_all_timetable
+from timetable_reader import get_group_timetable, get_all_timetable
 from advices.katok import *
 from advices.weath import *
 from advices.weekday import *
