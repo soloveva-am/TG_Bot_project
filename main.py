@@ -2,7 +2,7 @@ import asyncio
 import logging
 import sys
 import datetime
-
+from emoji import emojize
 from config import TOKEN
 from utils import form
 from data import  register, know_user, unique_login, set_group
@@ -48,13 +48,13 @@ async def advice_1(message: Message, state: FSMContext) -> None:
         for pair in Advice.keys():
             if Advice[pair] =='Возьми зонт!':
                 if pair == 'Advice':
-                    answer=answer+f"уходя на пары, {Advice[pair]} \n"
+                    answer=answer+emojize(f":umbrella: уходя на пары, {Advice[pair]} :umbrella: \n")
                 else:
-                    answer=answer+f'если будешь выглядывать из дома в {pair},Возьми зонт!  \n'
+                    answer=answer+ emojize(f':umbrella: если будешь выглядывать из дома в {pair},Возьми зонт! :umbrella: \n')
             else:
                 answer=answer+f'в {pair} {Advice[pair]}\n'
             if pair == '09:00 – 10:25':
-                answer=answer+ "ну или можешь поспать zzz..."
+                answer=answer+ emojize("ну или можешь поспать :zzz:\n")
         await message.reply(answer)
 
 @form_router.message(commands = ["advice_three"])
@@ -74,13 +74,14 @@ async def advice_1(message: Message, state: FSMContext) -> None:
             for pair in Advice.keys():
                 if Advice[pair] =='Возьми зонт!':
                     if pair == 'Advice':
-                        answer=answer+f"уходя на пары, {Advice[pair]} \n"
+                        answer=answer+ emojize(f":umbrella: уходя на пары, {Advice[pair]} :umbrella: \n")
                     else:
-                        answer=answer+f'если будешь выглядывать из дома в {pair},Возьми зонт!  \n'
+                        answer=answer+ emojize(f':umbrella: если будешь выглядывать из дома в {pair},Возьми зонт! :umbrella:  \n')
                 else:
                     answer=answer+f'в {pair} {Advice[pair]}\n'
                 if pair == '09:00 – 10:25':
-                    answer=answer+ "ну или можешь поспать zzz..."
+                    answer=answer+ emojize("ну или можешь поспать :zzz: \n")
+            answer = answer +'\n'
         await message.reply(answer)
 
 @form_router.message(commands = ["katok"])
@@ -95,7 +96,7 @@ async def advice_1(message: Message, state: FSMContext) -> None:
         if skating_advice:
             ans = f"{username}, на этой неделе ты можешь покататься на катке Салют \n"
             for day in skating_advice.keys():
-                ans= ans+ f'в {day} {skating_advice[day]} \n'
+                ans= ans+ emojize(f'в {day} {skating_advice[day]} :ice_skate: \n')
         else: ans=f'к сожалению, на этой неделе нет катаний'
     await(message.reply(ans))
 
