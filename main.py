@@ -1,12 +1,13 @@
 import asyncio
 import logging
 import sys
-from os import getenv
-from typing import Any, Dict
+import datetime
 
 from config import TOKEN
 from utils import form
 from data import  register, know_user, unique_login, set_group
+from linked_files import ADVICES, SKATING
+from days import days
 
 from aiogram import Bot, Dispatcher, F, Router, html
 from aiogram.dispatcher.fsm.context import FSMContext
@@ -15,7 +16,7 @@ from aiogram.types import KeyboardButton, Message, ReplyKeyboardMarkup, ReplyKey
 
 form_router = Router()
 Command_info='у меня есть команды: \n /start - приветствие \n /help - помощь \n'
-
+Daynames = ['сегодня', 'завтра', 'послезавтра']
 @form_router.message(commands=["start"])
 async def command_start(message: Message, state: FSMContext) -> None:
     Uinfo = know_user(message.from_user.id)
@@ -33,6 +34,73 @@ async def command_start(message: Message, state: FSMContext) -> None:
     await message.answer(
         Command_info,
     )
+@form_router.message(commands = ["advice_today"])
+async def advice_1(message: Message, state: FSMContext) -> None:
+    user_info=know_user(message.from_user.id)
+    if user_info==False:
+        await message.reply('Извините, мы незнакомы. Для регистрации нажмите /register')
+    else:
+        username = user_info[0]
+        groupnumber=user_info[1]
+        today, now = str(datetime.datetime.today()).split()
+        Advice = ADVICES(today, groupnumber)
+        answer=f'{username}, вот, что я могу тебе сегодня посоветовать: \n'
+        for pair in Advice.keys():
+            if Advice[pair] =='Возьми зонт!':
+                if pair == 'Advice':
+                    answer=answer+f"уходя на пары, {Advice[pair]} \n"
+                else:
+                    answer=answer+f'если будешь выглядывать из дома в {pair},Возьми зонт!  \n'
+            else:
+                answer=answer+f'в {pair} {Advice[pair]}\n'
+            if pair == '09:00 – 10:25':
+                answer=answer+ "ну или можешь поспать zzz..."
+        await message.reply(answer)
+
+@form_router.message(commands = ["advice_three"])
+async def advice_1(message: Message, state: FSMContext) -> None:
+    user_info=know_user(message.from_user.id)
+    if user_info==False:
+        await message.reply('Извините, мы незнакомы. Для регистрации нажмите /register')
+    else:
+        username = user_info[0]
+        groupnumber=user_info[1]
+        Dates=days()
+        named_dates = zip(Dates, Daynames)
+        answer="советы на три дня: \n"
+        for day, dayname in named_dates:
+            Advice = ADVICES(day, groupnumber)
+            answer=answer+ f'{username}, вот, что я могу тебе посоветовать на {dayname}: \n'
+            for pair in Advice.keys():
+                if Advice[pair] =='Возьми зонт!':
+                    if pair == 'Advice':
+                        answer=answer+f"уходя на пары, {Advice[pair]} \n"
+                    else:
+                        answer=answer+f'если будешь выглядывать из дома в {pair},Возьми зонт!  \n'
+                else:
+                    answer=answer+f'в {pair} {Advice[pair]}\n'
+                if pair == '09:00 – 10:25':
+                    answer=answer+ "ну или можешь поспать zzz..."
+        await message.reply(answer)
+
+@form_router.message(commands = ["katok"])
+async def advice_1(message: Message, state: FSMContext) -> None:
+    user_info=know_user(message.from_user.id)
+    if user_info==False:
+        await message.reply('Извините, мы незнакомы. Для регистрации нажмите /register')
+    else:
+        username = user_info[0]
+        groupnumber=user_info[1]
+        skating_advice = SKATING(groupnumber)
+        if skating_advice:
+            ans = f"{username}, на этой неделе ты можешь покататься на катке Салют \n"
+            for day in skating_advice.keys():
+                ans= ans+ f'в {day} {skating_advice[day]} \n'
+        else: ans=f'к сожалению, на этой неделе нет катаний'
+    await(message.reply(ans))
+
+
+
 
 @form_router.message(form.register)
 async def register_login(message: Message, state: FSMContext) -> None:

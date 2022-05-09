@@ -59,7 +59,7 @@ def SKATING(group):
         x,y = new_dict[day].split('-')
         x,y = convert_time(x),convert_time(y)
         if x >= 1200:# чтобы после 20:00 мы могли идтй кататься в любое время
-            advice_skat[day] = 'Ты можешь идтй кататься в {}!'.format(new_dict[day])
+            advice_skat[day] = 'массовое катание в {}!'.format(new_dict[day])
             continue
         rest_time,study_time,time_day = STUDY_DAY(day,group)
         res = True
@@ -70,13 +70,13 @@ def SKATING(group):
                 res = False
                 break
         if res == True:
-            advice_skat[day] = 'Ты можешь идтй кататься в {}!'.format(new_dict[day])
+            advice_skat[day] = 'массовое катание в {}!'.format(new_dict[day])
 
     return advice_skat
 
 
 
-print(ADVICES('2022-04-22','Б03-007'))
+print(ADVICES('2022-05-10','Б03-007'))
 print(SKATING('Б03-007'))
 
 
