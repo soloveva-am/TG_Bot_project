@@ -7,8 +7,6 @@ def WEEKDAY(my_day):
     return dict_day[str(n)]
 
 
-
-
 def convert_time(hour):
     # min = int(hour[:2])*60+int(hour[3:])
     b = hour.split(':')
