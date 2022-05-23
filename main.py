@@ -5,9 +5,10 @@ import datetime
 from emoji import emojize
 from config import TOKEN
 from utils import form
-from data import  register, know_user, unique_login, set_group
+from data import  register, know_user, unique_login, set_group, delete_user
 from linked_files import ADVICES, SKATING
 from days import days
+from timetable_reader import get_groups
 
 from aiogram import Bot, Dispatcher, F, Router, html
 from aiogram.dispatcher.fsm.context import FSMContext
@@ -34,6 +35,14 @@ async def command_start(message: Message, state: FSMContext) -> None:
     await message.answer(
         Command_info,
     )
+@form_router.message(commands=["delete_me"])
+async def command_start(message: Message, state: FSMContext) -> None:
+    id=message.from_user.id
+    K=delete_user(id)
+    if K: ans = 'данные успешно удалены'
+    else:ans = 'что-то не так'
+    await message.answer(ans)
+
 @form_router.message(commands = ["advice_today"])
 async def advice_1(message: Message, state: FSMContext) -> None:
     user_info=know_user(message.from_user.id)
@@ -94,11 +103,11 @@ async def advice_1(message: Message, state: FSMContext) -> None:
         groupnumber=user_info[1]
         skating_advice = SKATING(groupnumber)
         if skating_advice:
-            ans = f"{username}, на этой неделе ты можешь покататься на катке Салют \n"
+            a = f"{username}, на этой неделе ты можешь покататься на катке Салют \n"
             for day in skating_advice.keys():
-                ans= ans+ emojize(f'в {day} {skating_advice[day]} :ice_skate: \n')
-        else: ans=f'к сожалению, на этой неделе нет катаний'
-    await(message.reply(ans))
+                a= a+ emojize(f'в {day} {skating_advice[day]} :ice_skate: \n')
+        else: a=f'к сожалению, на этой неделе нет катаний'
+    await(message.reply(a))
 
 
 
@@ -117,10 +126,15 @@ async def register_login(message: Message, state: FSMContext) -> None:
 @form_router.message(form.group)
 async def register_group(message: Message, state: FSMContext) -> None:
     group_number = message.text.strip()
-    set_group(message.from_user.id, group_number)
-    Uinfo = know_user(message.from_user.id)
-    if Uinfo==False: raise Exception
-    else: await message.reply(f'теперь мы знакомы, {Uinfo[0]} из группы {Uinfo[1]}! \n')
+    groups=get_groups()
+    if group_number in groups:
+        set_group(message.from_user.id, group_number)
+        Uinfo = know_user(message.from_user.id)
+        if Uinfo==False: raise Exception
+        else:
+            await message.reply(f'теперь мы знакомы, {Uinfo[0]} из группы {Uinfo[1]}! \n')
+    else:
+        await message.reply('некорректный номер группы, попробуй ввести еще раз')
 
 async def main():
     bot = Bot(token=TOKEN, parse_mode="HTML")

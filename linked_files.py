@@ -64,7 +64,8 @@ def SKATING(group):
         rest_time,study_time,time_day = STUDY_DAY(day,group)
         res = True
         for i in study_time:
-            a,b = i.split('-')
+            #print(i)
+            a,b = i.split('–')
             a,b = convert_time(a),convert_time(b)
             if a <= x <= b or a <= y <= b:
                 res = False
@@ -76,7 +77,7 @@ def SKATING(group):
 
 
 
-print(ADVICES('2022-05-10','Б03-007'))
+#(ADVICES('2022-05-23','Б03-007'))
 print(SKATING('Б03-007'))
 
 

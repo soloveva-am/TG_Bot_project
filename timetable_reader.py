@@ -11,3 +11,8 @@ def get_all_timetable():
         TimetableDB = pickle.load(f)
     return TimetableDB
 
+def get_groups():
+    with open('TimetableDB.pickle', 'rb') as f:
+        TimetableDB = pickle.load(f)
+    return TimetableDB.keys()
+

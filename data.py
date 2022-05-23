@@ -35,3 +35,11 @@ def set_group(id, groupname):
     with open('data.pickle', 'wb') as f:
         pickle.dump(user_data, f, pickle.HIGHEST_PROTOCOL)
 
+def delete_user(id):
+    with open('data.pickle', 'rb') as f:
+        user_data = pickle.load(f)
+    k=user_data.pop(id, False)
+    with open('data.pickle', 'wb') as f:
+        pickle.dump(user_data, f, pickle.HIGHEST_PROTOCOL)
+    if k: users.remove(k[0])
+    return k
